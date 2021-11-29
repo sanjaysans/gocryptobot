@@ -43,7 +43,7 @@ go run main.go
 ##### Warning: 
 This won't work unless you replace the **REPLACE_WITH_TOKEN** on the .env file with the Token granted by @BotFather
 
-### :white_check_mark: Add BTB to your Telegram Channel
+### :white_check_mark: Create new bot to your Telegram Channel
 
 Open [@BotFather](https://telegram.me/botfather) on telegram and create a new bot with it's __/newbot__ command.
 
