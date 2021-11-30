@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net/http"
+	"os"
 	"time"
 
 	"github.com/sanjaysans/gocryptobot/config"
@@ -35,6 +38,14 @@ func main() {
 		log.Println(k + "✅ Loaded!")
 	}
 
+	http.HandleFunc("/", homePage)
+	log.Fatal(http.ListenAndServe("localhost:"+os.Getenv("PORT"), nil))
+
 	b.Start()
 
+}
+
+func homePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Welcome to the HomePage!")
+	fmt.Println("Endpoint Hit: homePage")
 }
