@@ -39,7 +39,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", homePage)
-	log.Fatal(http.ListenAndServe("localhost:"+os.Getenv("PORT"), nil))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 
 	b.Start()
 
