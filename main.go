@@ -38,10 +38,10 @@ func main() {
 		log.Println(k + "✅ Loaded!")
 	}
 
+	b.Start()
+
 	http.HandleFunc("/", homePage)
 	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
-
-	b.Start()
 
 }
 
