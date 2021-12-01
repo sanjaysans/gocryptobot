@@ -17,6 +17,7 @@ import (
 var one bool = true
 
 func main() {
+	log.Println("port: " + os.Getenv("PORT"))
 	config.LoadConfig()
 	http.HandleFunc("/", homePage)
 	log.Println("port: " + os.Getenv("PORT"))
@@ -24,30 +25,26 @@ func main() {
 
 }
 
-func runBot() {
-	b, err := tb.NewBot(tb.Settings{
-		Token:  config.LoadConfig().Token,
-		Poller: &tb.LongPoller{Timeout: 10 * time.Second},
-	})
-
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
-	utils.GetCoins()
-
-	for k, v := range handler.LoadHandler(b) {
-		b.Handle(k, v)
-		log.Println(k + "✅ Loaded!")
-	}
-	one = false
-	b.Start()
-}
-
 func homePage(w http.ResponseWriter, r *http.Request) {
 	if one {
-		runBot()
+		b, err := tb.NewBot(tb.Settings{
+			Token:  config.LoadConfig().Token,
+			Poller: &tb.LongPoller{Timeout: 10 * time.Second},
+		})
+
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+
+		utils.GetCoins()
+
+		for k, v := range handler.LoadHandler(b) {
+			b.Handle(k, v)
+			log.Println(k + "✅ Loaded!")
+		}
+		one = false
+		b.Start()
 	}
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 	fmt.Println("Endpoint Hit: homePage")
