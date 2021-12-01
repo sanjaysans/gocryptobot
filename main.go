@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/sanjaysans/gocryptobot/config"
@@ -13,8 +14,17 @@ import (
 	tb "gopkg.in/tucnak/telebot.v2"
 )
 
-func main() {
+var one bool = true
 
+func main() {
+	config.LoadConfig()
+	http.HandleFunc("/", homePage)
+	log.Println("port: " + os.Getenv("PORT"))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
+
+}
+
+func runBot() {
 	b, err := tb.NewBot(tb.Settings{
 		Token:  config.LoadConfig().Token,
 		Poller: &tb.LongPoller{Timeout: 10 * time.Second},
@@ -27,24 +37,18 @@ func main() {
 
 	utils.GetCoins()
 
-	if err != nil {
-		log.Fatal(err)
-		return
-	}
-
 	for k, v := range handler.LoadHandler(b) {
 		b.Handle(k, v)
 		log.Println(k + "✅ Loaded!")
 	}
-
-	// http.HandleFunc("/", homePage)
-	// log.Println("port: " + os.Getenv("PORT"))
-	// log.Println(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
+	one = false
 	b.Start()
-
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
+	if one == true {
+		runBot()
+	}
 	fmt.Fprintf(w, "Welcome to the HomePage!")
 	fmt.Println("Endpoint Hit: homePage")
 }
