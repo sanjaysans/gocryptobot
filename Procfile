@@ -1,1 +1,1 @@
-worker: ./bin/gocryptobot
+worker: go run main.go
