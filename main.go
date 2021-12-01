@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/sanjaysans/gocryptobot/config"
@@ -38,10 +37,10 @@ func main() {
 		log.Println(k + "✅ Loaded!")
 	}
 
+	// http.HandleFunc("/", homePage)
+	// log.Println("port: " + os.Getenv("PORT"))
+	// log.Println(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 	b.Start()
-
-	http.HandleFunc("/", homePage)
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 
 }
 
