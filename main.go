@@ -46,7 +46,7 @@ func runBot() {
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
-	if one == true {
+	if one {
 		runBot()
 	}
 	fmt.Fprintf(w, "Welcome to the HomePage!")
