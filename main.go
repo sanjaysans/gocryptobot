@@ -25,7 +25,7 @@ func main() {
 	// To keep heroku deployment alive more than 30 minutes
 	log.Println("Create new cron")
 	c := cron.New()
-	c.AddFunc("1 * * * *", func() {
+	c.AddFunc("15 * * * *", func() {
 		log.Println("[Job 1]Every minute job")
 		utils.GetHerokuApp()
 	})
