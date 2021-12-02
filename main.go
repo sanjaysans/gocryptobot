@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/robfig/cron"
 	"github.com/sanjaysans/gocryptobot/config"
 	"github.com/sanjaysans/gocryptobot/handler"
 	"github.com/sanjaysans/gocryptobot/utils"
@@ -20,6 +21,17 @@ func main() {
 	log.Println("port: " + os.Getenv("PORT"))
 	config.LoadConfig()
 	http.HandleFunc("/", homePage)
+
+	// To keep heroku deployment alive more than 30 minutes
+	log.Println("Create new cron")
+	c := cron.New()
+	c.AddFunc("1 * * * *", func() {
+		log.Println("[Job 1]Every minute job")
+		utils.GetHerokuApp()
+	})
+	log.Println("Start cron")
+	c.Start()
+
 	log.Println("port: " + os.Getenv("PORT"))
 	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 

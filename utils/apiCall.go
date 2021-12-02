@@ -32,3 +32,8 @@ func GetCoinListApiCall() ([]model.Coin, error) {
 	err = json.NewDecoder(resp.Body).Decode(p)
 	return *p, err
 }
+
+func GetHerokuApp() {
+	resp, err := http.Get("http://gocryptobot.herokuapp.com/awake")
+	log.Println("resp: ", resp, "\nerr: ", err)
+}
